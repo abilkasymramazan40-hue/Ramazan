@@ -1,4 +1,4 @@
-public class MenuItem {
+public abstract class MenuItem {
 
     private String name;
     private double price;
@@ -10,31 +10,73 @@ public class MenuItem {
         this.category = category;
     }
 
+    public abstract double calculatePrice();
+
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public String toString() {
+        return name + " (" + category + ") - " + price + " KZT";
     }
 
-    public void showInfo() {
-        System.out.println("Menu Item: " + name + ", Price: " + price + ", Category: " + category);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MenuItem other = (MenuItem) obj;
+
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+
+        if (category == null) {
+            if (other.category != null) {
+                return false;
+            }
+        } else if (!category.equals(other.category)) {
+            return false;
+        }
+
+        if (price != other.price) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public int hashCode() {
+        int result = 17;
+
+        if (name != null) {
+            result = 31 * result + name.hashCode();
+        }
+
+        long temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+
+        if (category != null) {
+            result = 31 * result + category.hashCode();
+        }
+
+        return result;
     }
 }
